@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - best_network
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    restart: always
+
+  nginx: 
+    container_name: nginx
+    build: ./requirements/nginx
+    networks:
+      - best_network
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    env_file:
+      - .env
+    restart: always
+  
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    networks:
+      - best_network
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    restart: always
+
+networks:
+  best_network:
+
+volumes:
+  mariadb_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+  
+  wordpress_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
