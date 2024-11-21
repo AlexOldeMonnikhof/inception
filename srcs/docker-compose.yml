@@ -32,6 +32,8 @@ services:
     build: ./requirements/wordpress
     networks:
       - best_network
+    volumes:
+      - ./web:/var/www/html
     ports:
       - "9000:9000"
     depends_on:
