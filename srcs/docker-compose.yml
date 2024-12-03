@@ -1,11 +1,11 @@
-version: '3.8'
+version: "3.9"
 
 services:
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
     volumes:
-      - /var/lib/mysql
+      - mdb_vol:/var/lib/mysql
     networks:
       - best_network
     ports:
@@ -17,14 +17,14 @@ services:
   nginx: 
     container_name: nginx
     build: ./requirements/nginx
+    volumes:
+      - wp_vol:/var/www/html
     networks:
       - best_network
     ports:
       - "443:443"
     depends_on:
       - wordpress
-    env_file:
-      - .env
     restart: always
   
   wordpress:
@@ -32,6 +32,8 @@ services:
     build: ./requirements/wordpress
     networks:
       - best_network
+    volumes:
+      - wp_vol:/var/www/html
     ports:
       - "9000:9000"
     depends_on:
@@ -44,14 +46,17 @@ networks:
   best_network:
 
 volumes:
-  mariadb_vol:
+  mdb_vol:
+    name: mdb_vol
     driver: local
     driver_opts:
       type: none
+      device: /home/aolde-mo/data/mdb_vol
       o: bind
-  
-  wordpress_vol:
+  wp_vol:
+    name: wp_vol
     driver: local
     driver_opts:
       type: none
+      device: /home/aolde-mo/data/wp_vol
       o: bind
