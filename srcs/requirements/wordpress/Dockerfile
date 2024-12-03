@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update -y && apt-get install -y php7.4 php7.4-fpm wget
+RUN apt-get update -y && apt-get install -y php7.4 php7.4-fpm wget php7.4-mysqli
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar  \
     && chmod +x wp-cli.phar \
