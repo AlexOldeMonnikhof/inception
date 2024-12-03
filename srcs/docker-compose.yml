@@ -2,6 +2,8 @@ services:
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
+    image: mariadb
+    pull_policy: never
     volumes:
       - mdb_vol:/var/lib/mysql
     networks:
@@ -15,6 +17,8 @@ services:
   nginx: 
     container_name: nginx
     build: ./requirements/nginx
+    image: nginx
+    pull_policy: never
     volumes:
       - wp_vol:/var/www/html
     networks:
@@ -27,6 +31,8 @@ services:
   
   wordpress:
     container_name: wordpress
+    image: wordpress
+    pull_policy: never
     build: ./requirements/wordpress
     networks:
       - best_network
